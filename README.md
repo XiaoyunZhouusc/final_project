@@ -16,7 +16,7 @@ I will use the data from [GDC](https://portal.gdc.cancer.gov/repository). Examin
 
 ## Milestone 1
 
-Complete data loaded with alcohol history and smoking history cases, prepare to crossmatch and compare. 
+Complete data loaded with alcohol history cases, prepare to crossmatch and compare. 
 
 **Due Date:** Thursday November 11th
 
