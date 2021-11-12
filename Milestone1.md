@@ -1,7 +1,7 @@
 # Section 1: Update
 
 Now it is able to:
-* in the "[scripts](https://github.com/XiaoyunZhouusc/final_project/tree/master/scripts)" folder, there is a [script](https://github.com/XiaoyunZhouusc/final_project/scripts/unzip.sh) to automatically download data and unzip
+* in the "[scripts](https://github.com/XiaoyunZhouusc/final_project/tree/master/scripts)" folder, there is a [script](https://github.com/XiaoyunZhouusc/final_project/blob/master/scripts/unzip.sh) to automatically download data and unzip
 * in the "[R](https://github.com/XiaoyunZhouusc/final_project/R)" folder, [final_project.R](https://github.com/XiaoyunZhouusc/final_project/R/final_project.R) now can do simple data processing and comparing and output chart. I compare the portions of smokers and non-smokers among patients of pancreatic cancer and output a chart. 
 
 ![](images/pie_smoker_vs_non-smoker.png?raw=true)
