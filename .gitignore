@@ -1,0 +1,12 @@
+**.zip
+**.tar
+**.gz
+**.tsv
+data/**
+.Rbuildignore
+.Rproj.user/
+.Rhistory
+.RData
+output/
+csv/
+images/

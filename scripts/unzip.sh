@@ -31,11 +31,6 @@ cd htseq.counts
 
 tar xvf ../gdc_download_20211110_070038.465477.tar
 
-# for annotations in $(ls **/annotations.txt)
-# do
-#     echo "\n" >> $annotations
-# done
-
 cd ..
 
 if [ -d clinical ];then
