@@ -10,3 +10,4 @@ data/**
 output/
 csv/
 images/
+.DS_Store
