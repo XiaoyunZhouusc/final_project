@@ -52,6 +52,8 @@ library(ff)
 
 differential_expression_analysis <- function(label, lambda, htseq_directory_of_covariate){
 
+  dir.create("images", showWarnings = FALSE)
+
   unlink(file.path("images", label), recursive = TRUE)
   dir.create(file.path("images", label))
 
@@ -661,6 +663,8 @@ differential_expression_analysis <- function(label, lambda, htseq_directory_of_c
                rasterGrob(img17),rasterGrob(img18),rasterGrob(img19),rasterGrob(img20),rasterGrob(img15),rasterGrob(img16),rasterGrob(img21),rasterGrob(img22), nrow = 6, ncol=4)
 
   dev.off()
+
+  dir.create("output", showWarnings = FALSE)
 
   unlink(file.path("output", label), recursive = TRUE)
 
