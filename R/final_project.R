@@ -50,7 +50,7 @@ library(ff)
 #library(BiocParallel)
 #register(MulticoreParam(4))
 
-differential_expression_analysis <- function(label, lambda, htseq_directory_of_covariate){
+differential_expression_analysis <- function(label, exposure, clinical, htseq_directory_of_covariate){
 
   dir.create("images", showWarnings = FALSE)
 
@@ -59,7 +59,7 @@ differential_expression_analysis <- function(label, lambda, htseq_directory_of_c
 
   non_label = paste0("non",".", label)
 
-  clinical_exposure <- lambda(read.table("data/clinical/exposure.tsv", sep = '\t', header = TRUE,  quote = ""))
+  clinical_exposure <- exposure(read.table("data/clinical/exposure.tsv", sep = '\t', header = TRUE,  quote = ""))
 
   png(filename = file.path("images", label, "PIE_CHART.png"))
   pie(c(length(clinical_exposure$condition[clinical_exposure$condition == FALSE]),
@@ -77,6 +77,8 @@ differential_expression_analysis <- function(label, lambda, htseq_directory_of_c
   odd <- seq(1,length(clinical_clinical$case_id),2)
 
   clinical_clinical <- clinical_clinical[odd,] # extract odd row. Somehow '' has duplicates
+
+  clinical_clinical<-clinical(clinical_clinical)
 
   merged_clinical <- merge(clinical_exposure, clinical_clinical)
 
@@ -671,56 +673,13 @@ differential_expression_analysis <- function(label, lambda, htseq_directory_of_c
   file.move(file.path("images", label),file.path("output", label))
 }
 
-differential_expression_analysis("smoke", function(clinical_exposure) {
-  clinical_exposure["years_smoked"][clinical_exposure["years_smoked"] <= 0] <- 0
-  clinical_exposure["years_smoked"] <- sapply(clinical_exposure["years_smoked"], as.numeric)
-  clinical_exposure["cigarettes_per_day"][clinical_exposure["cigarettes_per_day"] <= 0] <- 0
-  clinical_exposure["cigarettes_per_day"] <- sapply(clinical_exposure["cigarettes_per_day"], as.numeric)
-  clinical_exposure["pack_years_smoked"][clinical_exposure["pack_years_smoked"] <= 0] <- 0
-  clinical_exposure["pack_years_smoked"] <- sapply(clinical_exposure["pack_years_smoked"], as.numeric)
-  clinical_exposure$condition <- (clinical_exposure$years_smoked > 0 | clinical_exposure$cigarettes_per_day > 0 | clinical_exposure$pack_years_smoked > 0)
-  clinical_exposure
-  }, "static/smoke_cases.txt")
-
 differential_expression_analysis("alcohol", function(clinical_exposure) {
   clinical_exposure <- clinical_exposure[clinical_exposure$alcohol_history != "Not Reported",]
   clinical_exposure$condition <- FALSE
   clinical_exposure[clinical_exposure$alcohol_history == "Yes",]$condition <- TRUE
   clinical_exposure
-}, "static/alcohol_cases.txt")
-
-#differential_expression_analysis("AlcoholOrCig", function(clinical_exposure) {
-#  clinical_exposure <- clinical_exposure[clinical_exposure$alcohol_history != "Not Reported",]
-#  clinical_exposure$condition <- FALSE
-#  clinical_exposure[clinical_exposure$alcohol_history == "Yes",]$condition <- TRUE
-
-#  clinical_exposure["years_smoked"][clinical_exposure["years_smoked"] <= 0] <- 0
-#  clinical_exposure["years_smoked"] <- sapply(clinical_exposure["years_smoked"], as.numeric)
-#  clinical_exposure["cigarettes_per_day"][clinical_exposure["cigarettes_per_day"] <= 0] <- 0
-#  clinical_exposure["cigarettes_per_day"] <- sapply(clinical_exposure["cigarettes_per_day"], as.numeric)
-#  clinical_exposure["pack_years_smoked"][clinical_exposure["pack_years_smoked"] <= 0] <- 0
-#  clinical_exposure["pack_years_smoked"] <- sapply(clinical_exposure["pack_years_smoked"], as.numeric)
-
-#  clinical_exposure$condition <- (clinical_exposure$years_smoked > 0 | clinical_exposure$cigarettes_per_day > 0 | clinical_exposure$pack_years_smoked > 0 | clinical_exposure$condition)
-
-#  clinical_exposure
-#}, "static/alcohol_or_cig_cases.txt")
-
-
-# only 25 cases, not enough
-#differential_expression_analysis("AlcoholAndCig", function(clinical_exposure) {
-#  clinical_exposure <- clinical_exposure[clinical_exposure$alcohol_history != "Not Reported",]
-#  clinical_exposure$condition <- FALSE
-#  clinical_exposure[clinical_exposure$alcohol_history == "Yes",]$condition <- TRUE
-
-#  clinical_exposure["years_smoked"][clinical_exposure["years_smoked"] <= 0] <- 0
-#  clinical_exposure["years_smoked"] <- sapply(clinical_exposure["years_smoked"], as.numeric)
-#  clinical_exposure["cigarettes_per_day"][clinical_exposure["cigarettes_per_day"] <= 0] <- 0
-#  clinical_exposure["cigarettes_per_day"] <- sapply(clinical_exposure["cigarettes_per_day"], as.numeric)
-#  clinical_exposure["pack_years_smoked"][clinical_exposure["pack_years_smoked"] <= 0] <- 0
-#  clinical_exposure["pack_years_smoked"] <- sapply(clinical_exposure["pack_years_smoked"], as.numeric)
-
-#  clinical_exposure$condition <- ((clinical_exposure$years_smoked > 0 | clinical_exposure$cigarettes_per_day > 0 | clinical_exposure$pack_years_smoked > 0) & clinical_exposure$condition)
-
-#  clinical_exposure
-#}, "static/alcohol_and_cig_cases.txt")
+}, function(clinical) {
+  clinical<-clinical[clinical$gender == "male",]
+  clinical<-clinical[clinical$race == "white",]
+  clinical
+}, "static/alcohol_white_man.txt")

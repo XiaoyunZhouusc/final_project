@@ -8,6 +8,5 @@ data/**
 .Rhistory
 .RData
 output/
-csv/
 images/
 .DS_Store
