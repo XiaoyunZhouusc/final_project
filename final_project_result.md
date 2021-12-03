@@ -265,6 +265,10 @@ Using GSEA tested the top 5 mutation risk of gene, AKT1S1, MARK2P8, OCIAD1-AS1, 
 
 You can find Gene Expression Vigentte at [here](https://github.com/XiaoyunZhouusc/final_project/tree/master/csv).
 
+### Known Issues
+
+None
+
 # Conclusion
 
 In the white male, the result showed that alcohol using patients has higher chance to get pancreas cancer than the non-alcohol users. Provided that the alcohol using could be one of the risk factor of pancreas cancer. 
