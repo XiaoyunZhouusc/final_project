@@ -50,7 +50,7 @@ library(ff)
 #library(BiocParallel)
 #register(MulticoreParam(4))
 
-differential_expression_analysis <- function(label, exposure, clinical, htseq_directory_of_covariate){
+differential_expression_analysis <- function(label, exposure, clinical, htseq_directory_of_covariate, list_to_include){
 
   dir.create("images", showWarnings = FALSE)
 
@@ -113,7 +113,11 @@ differential_expression_analysis <- function(label, exposure, clinical, htseq_di
 
   target_cases <- read.table(htseq_directory_of_covariate, header = TRUE)
 
+  include_cases <- read.table(list_to_include, header = TRUE)
+
   htseq_table<-htseq_table[htseq_table$id != "\\N", ]
+
+  htseq_table<-htseq_table[htseq_table$id %in% include_cases$id, ]
 
   htseq_table$condition = non_label
 
@@ -682,4 +686,4 @@ differential_expression_analysis("alcohol", function(clinical_exposure) {
   clinical<-clinical[clinical$gender == "male",]
   clinical<-clinical[clinical$race == "white",]
   clinical
-}, "static/alcohol_white_man.txt")
+}, "static/alcohol_white_man.txt", "static/white_man.txt")
