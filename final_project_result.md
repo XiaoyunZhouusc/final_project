@@ -1,10 +1,10 @@
-### Final project of 510
+# Final project of 510
 
-## Description 
+### Description 
 
 RNA-seq Analysis of alcohol as risk factor of pancreas cancer in white male. 
 
-## Overview of project 
+### Overview of project 
 
 Pancreas cancer as known as the king of cancer, it showed poor 5-year survival rate after diagnosed. The cause of pancreas cancer remains unknown, but I believed alcohol using is one of the most significant risk factors to cause pancreas cancer.
 
@@ -12,7 +12,7 @@ To test whether if the alcohol using is one of the risk factors, I compared two 
 
 The result showed that majority of pancreas cancer patients in white male has alcohol using history, provided that alcohol using could be a risk factor in pancreas cancer. Meanwhile, the alcohol using will cause the most AKT1S1, MARK2P8, OCIAD1-AS1, RP11-43F13.3, LINC00632 gene mutation that may lead to pancreas cancer.
 
-## Data 
+### Data 
 
 From the national cancer institute GDC data portal.
 Cancer: Pancreas cancer 
@@ -21,7 +21,7 @@ Project: TCGA-PAAD
 Race: White
 Sex: Male
 
-## Section 1: overall result 
+### Section 1: overall result 
 From picture 1,2,3 we could know that majority of white male patients of pancreas cancer have alcohol using history.
 
 pie(c(length(clinical_exposure$condition[clinical_exposure$condition == FALSE]), length(clinical_exposure$condition[clinical_exposure$condition == TRUE])), c(non_label, label), main = "Overall")
@@ -40,7 +40,7 @@ Used these codes to get picture 2.
 
 Used these codes to get picture 3. 
 
-## Section 2: PCA and Plot Counts
+### Section 2: PCA and Plot Counts
 From picture 4 (PCA) we know data of alcohol user and non-alcohol are mixed with no clear boundary. But in picture 5 (plot counts), they have obvious difference.
 
 > Vsd <- vst(dds, blind=FALSE)
@@ -55,7 +55,7 @@ Used these codes to get picture 4
 
 Used these codes to get picture 5
 
-## Section 3: Exploring and Exporting result 
+### Section 3: Exploring and Exporting result 
 From picture 6 the raw graph and picture 7 the analyzed picture we could find out that the alcohol patients will change a lot of different genes, and there are no specific genes that would mutate due by the alcohol using. Both non-alcohol and alcohol patients of pancreas cancer will have high mutate on in different genes.
 	
 > Res <- results(dds, contrast=c(“condition”,non_label,label))
@@ -68,7 +68,7 @@ Used these codes to get picture 6.
 
 Used these codes to get picture 7. 
 
-## Section 4: Alternative shrinkage estimators
+### Section 4: Alternative shrinkage estimators
 From picture 8, the gene mutation between non-alcohol and alcohol of pancreas cancer patients do not have much difference, while the picture 10 showed us that the specific genes of non-alcohol and alcohol patients. The specific genes of alcohol patients showed wild dispersed while the non-alcohol patients showed similar.
 
 > resLFC <- lfcShrink(dds, coef=paste0(“condition_”, label, “_vs_”, non_label), type=”apeglm”)
@@ -86,7 +86,7 @@ Used these codes to get picture 9.
 
 Used these codes to get picture 10
 
-## Section 5: Significance in alcohol/non-alcohol comparison 
+### Section 5: Significance in alcohol/non-alcohol comparison 
 From picture 11 it showed us the probability of different gene mutation. The darker colors have higher probability occur in the patients, however, compare with picture 6 most of the high chance mutation came from the non-alcohol patients not alcohol patients. 
 
 > Ggplot(deseq2ResDF, aes(baseMean, log2FoldChange, colour=padj)) +
@@ -102,7 +102,7 @@ From picture 11 it showed us the probability of different gene mutation. The dar
 
 Used these codes to get picture 11
 
-## Section 6: Effects of transformations on the variance
+### Section 6: Effects of transformations on the variance
 From picture 12 and 13, we could notify that from rank 20,000 to 30,000 the gene mutation occurs more frequently due to the high sd. The overall of two pictures showed that the pancreas cancer patients have high genes mutations. 
 
 > Ntd <- normTransform(dds)
@@ -117,7 +117,7 @@ Used these codes to get picture 12.
 
 Used these codes to get picture 13.
 
-## Section 7: Extended section on shrinkage estimators
+### Section 7: Extended section on shrinkage estimators
 From picture 14, it also showed that the alcohol patients have a lot of genes mutation, and the mutations are not specific.
 
 > resApeT <- lfcShrink(dds, coef=2, type=”apeglm”, lfcThreshold=1)
@@ -125,7 +125,7 @@ From picture 14, it also showed that the alcohol patients have a lot of genes mu
 
 Used these codes to get picture 14
 
-## Section 8: Tests of log2 fold change above or below a threshold
+### Section 8: Tests of log2 fold change above or below a threshold
 From picture 15 – 18, the four pictures of Wald tests, the specific genes from greater (abs), greater, less are limited. Most specific genes that are selected are from less (abs) range from 1e+00 – 1e+02.
 
 > resGA <- results(dds, lfcThreshold=.5, altHypothesis=”greaterAbs”)
@@ -148,7 +148,7 @@ Used these codes to get picture 17.
 
 Used these codes to get picture 18.
 
-## Section 9: Count outlier detection
+### Section 9: Count outlier detection
 From picture 19, we could know after using Cook’s distance, the distance per gene is small, and most of the gene do not have high mutation chance. From picture 20, we could notify the outliner from picture 19. The gene mutation frequency is almost equal except 0 group.
 
 > Plot(res$baseMean+1, -log10(res$pvalue),
@@ -172,7 +172,7 @@ Used these codes to get picture 19
 
 Used these codes to get picture 20
 
-## Section 10: Independent filtering of results
+### Section 10: Independent filtering of results
 From picture 21, we could know this picture maximizes the number of rejections over the quantiles of a filter statistic.
 
 > metadata(res)$alpha
@@ -186,33 +186,33 @@ From picture 21, we could know this picture maximizes the number of rejections o
 
 Used these codes to get picture 21
 
-## Section 11: Dispersion plot and fitting alternatives
+### Section 11: Dispersion plot and fitting alternatives
 From picture 22, we could find that a lot of final gene-est are not shrunk towards the fitted value, which means there are lot of outliers. 
 
 > plotDispEsts(dds, main="Dispersion plot and fitting alternatives")
 
 Used these codes to get picture 22
 
-## Section 12: Approach to count outliers
+### Section 12: Approach to count outliers
 From picture 23, the picture showed us after using Cook’s distances which gene has higher range than others. For all the genes, the minimum requirement is third times replications.
 
 > boxplot(log10(assays(dds)[["cooks"]]), range=0, las=2, main="count outliers")
 
 Used these codes to get picture 23
 
-## Section 13: Heatmap of genes of each case 
+### Section 13: Heatmap of genes of each case 
 From picture 24, we could know from each case, which gene has higher mutation. The higher mutation rate, the color is brighter. 
 
 > grid.draw(arrangeGrob(sampleDendrogramGrob, heatmapGrob, ncol=1, heights=c(2,5)))
 
 Used these codes to get picture 24
 
-## Section 14: Mutated gene overlapping 
+### Section 14: Mutated gene overlapping 
 
 Using GSEA tested the top 5 mutation risk of gene, AKT1S1, MARK2P8, OCIAD1-AS1, RP11-43F13.3, LINC00632, and there is no overlapping between those five genes. Provided that alcohol using will cause random mutation that leads to pancreas cancer. 
 
 
-## Conclusion
+# Conclusion
 
 In the white male, the result showed that alcohol using patients has higher chance to get pancreas cancer than the non-alcohol users. Provided that the alcohol using could be one of the risk factor of pancreas cancer. 
 
